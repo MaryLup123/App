@@ -12,21 +12,23 @@
     
     <title>Sistema compras e inventario</title>
 
+     <!-- CSS de Bootstrap -->
+     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    {% load static %}
+
     <!-- Custom fonts for this template-->
-    <link rel="icon" href="{% static 'base/img/favicon.ico' %}">
+    <link href="{% static 'base/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     
-
-    <link href="{% static 'base/css/sb-admin-2.min.css' %}" rel="stylesheet">
-    <script src="{% static 'base/js/sb-admin-2.min.js' %}"></script>
-
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
+    
     <!-- Custom styles for this template-->
     <link href="{% static 'base/css/sb-admin-2.min.css' %}" rel="stylesheet">
-
-</head>
+    
+    <!-- Custom styles for this page -->
+    <link href="{% static 'base/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+    </head>
+    
 
 <body id="page-top" class="bg-gradient-primary">
     {% block side_bar %}
@@ -73,6 +75,11 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Catálogos de Inventario:</h6>
                         <a class="collapse-item" href="{% url 'inv:categoria_list' %}">Categoria</a>
+                        <a class="collapse-item" href="{% url 'inv:subcategoria_list' %}">Sub Categoria</a>
+                        <a class="collapse-item" href="{% url 'inv:marca_list' %}">Marca</a>
+                        <a class="collapse-item" href="{% url 'inv:um_list' %}">Unidad Medida</a>
+                        <a class="collapse-item" href="{% url 'inv:producto_list' %}">Producto</a>
+                        <a class="collapse-item" href="{% url 'cmp:proveedor_list' %}">Proveedor</a>
                         <a class="collapse-item" href="cards.html">Cards</a>
                     </div>
                 </div>
@@ -429,6 +436,16 @@
         </div>
     </div>
 
+
+    <div class="modal fade" id="popup"></div>
+
+<!-- jQuery (debe cargarse primero) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap JavaScript (incluye funcionalidad de dropdown) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'base/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'base/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -439,7 +456,29 @@
     <!-- Custom scripts for all pages-->
     <script src="{% static 'base/js/sb-admin-2.min.js' %}"></script>
 
+    
+    <!-- Page level plugins -->
+    <script src="{% static 'base/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'base/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
     {% block js_page %} {% endblock %}
+
+    {% block control_modal %}
+<script>
+function abrir_modal(url) {
+    $("#popup").load(url, function() {
+        $(this).modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+        $(this).modal('show');
+    });
+    return false;
+}
+
+</script>
+{% endblock %}
+
 </body>
 
 </html>

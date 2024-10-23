@@ -24,9 +24,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),  # Administración
     path('', TemplateView.as_view(template_name='base/base.html'), name='home'),  # Ruta raíz
     path('base/', TemplateView.as_view(template_name='base/base.html'), name='base'),  # Ruta para /base/
+
     path('', include('bases.urls')),  # Incluir las URLs de la aplicación bases
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),  # Añade esta línea para el logout
     path('inv/', include(('inv.urls', 'inv'), namespace='inv')),  # Incluir las URLs de la aplicación bases
+    path('cmp/', include(('cmp.urls', 'cmp'), namespace='cmp')),
 
 ]
 

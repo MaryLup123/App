@@ -1,24 +1,96 @@
-from django import forms        # Importa el módulo de formularios de Django.
-from .models import Categoria   # Importa el modelo 'Categoria' desde el archivo 'models.py'.
+from django import forms
+from .models import Categoria, SubCategoria, Marca, UnidadMedida, Producto
 
-
-class CategoriaForm(forms.ModelForm):   # Define una clase de formulario que hereda de 'forms.ModelForm'.
-    
-    class Meta:  # Define la metadata del formulario.
-        model = Categoria   # Asocia este formulario con el modelo 'Categoria'.
-        fields = ['descripcion', 'estado']   # Especifica qué campos del modelo serán incluidos en el formulario.
-        labels = {'descripcion': 'Descripción de la Categoría', 'estado': 'Estado'}
-        # Define etiquetas personalizadas para los campos 'descripcion' y 'estado'.
-
+class CategoriaForm(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = ['descripcion', 'estado']
+        labels = {
+            'descripcion': "Descripción de la Categoría",
+            'estado': "Estado"
+        }
         widgets = {'descripcion': forms.TextInput()}
-        # Asocia un widget específico (en este caso, un campo de texto) para el campo 'descripcion'.
-    
-    def __init__(self, *args, **kwargs):  # Sobrescribe el método de inicialización de la clase.
-        super().__init__(*args, **kwargs)   # Llama al constructor del formulario original para inicializarlo
-    
-        for field in iter(self.fields):  # Itera sobre todos los campos definidos en el formulario.
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
-            # Actualiza los atributos del widget de cada campo, agregando la clase 'form-control' (de Bootstrap)
-            # para estilizar los campos del formulario.
+
+
+class SubCategoriaForm(forms.ModelForm):
+    categoria = forms.ModelChoiceField(
+        queryset=Categoria.objects.filter(estado=True).order_by('descripcion')
+    )
+
+    class Meta:
+        model = SubCategoria
+        fields = ['categoria', 'descripcion', 'estado']
+        labels = {
+            'descripcion': "Sub Categoría",
+            'estado': "Estado"
+        }
+        widgets = {'descripcion': forms.TextInput()}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })
+        self.fields['categoria'].empty_label = "Seleccione Categoría"
+
+
+class MarcaForm(forms.ModelForm):
+    class Meta:
+        model = Marca
+        fields = ['descripcion', 'estado']
+        labels = {
+            'descripcion': "Descripción de la Marca",
+            'estado': "Estado"
+        }
+        widgets = {'descripcion': forms.TextInput()}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })
+
+
+class UMForm(forms.ModelForm):
+    class Meta:
+        model = UnidadMedida
+        fields = ['descripcion', 'estado']
+        labels = {
+            'descripcion': 'Unidad de Medida',
+            'estado': 'Estado'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })
+
+
+class ProductoForm(forms.ModelForm):
+    class Meta:
+        model = Producto
+        fields = ['codigo', 'codigo_barra', 'descripcion', 'estado',
+                  'precio', 'existencia', 'ultima_compra',
+                  'marca', 'subcategoria', 'unidad_medida']
+        exclude = ['um', 'uc', 'fc']
+        widgets = {'descripcion': forms.TextInput()}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })
+        self.fields['ultima_compra'].widget.attrs['readonly'] = True
+        self.fields['existencia'].widget.attrs['readonly'] = True
