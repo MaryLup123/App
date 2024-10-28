@@ -12,6 +12,7 @@
             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                 <div class="dropdown-header">Acciones:</div>
                 <a class="dropdown-item" onclick="return abrir_modal('{% url 'cmp:proveedor_new' %}')" href="#">
+
                     <i class="far fa-calendar-plus"></i> Nuevo Proveedor
                 </a>
             </div>
@@ -47,9 +48,9 @@
                     <td>{{ item.email }}</td>
                     <td>{{ item.estado|yesno:"Activo,Inactivo" }}</td>
                     <td>
-                        <button class="btn btn-warning btn-circle" onclick="return abrir_modal('{% url 'cmp:proveedor_edit' item.id %}')" href="#">
-                            <i class="fas fa-edit"></i>
-                        </button>
+                        <button class="btn btn-warning btn-circle" onclick="return abrir_modal('{% url 'cmp:proveedor_edit' item.id %}')"><i class="fas fa-edit"></i></button>
+
+                        <button class="btn btn-warning btn-circle" onclick="return abrir_modal('{% url 'cmp:proveedor_inactivar' item.id %}')"><i class="fas fa-thumbs-down"></i></button>
                     </td>
                 </tr>
                 {% endfor %}
