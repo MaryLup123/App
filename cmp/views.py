@@ -17,9 +17,13 @@ from bases.views import SinPrivilegios
 from inv.models import Producto
 
 # cmp/views.py
-from django.views.generic import ListView
-from .models import Proveedor
 
+from django.views.generic import ListView
+from .models import Proveedor  # Asegúrate de que tienes el modelo correcto
+
+class ProveedorListView(ListView):
+    model = Proveedor
+    template_name = 'cmp/proveedor_list.html'
 
 class ProveedorView(LoginRequiredMixin, generic.ListView):
     model = Proveedor
