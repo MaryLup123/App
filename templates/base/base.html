@@ -466,7 +466,7 @@
     <script src="{% static 'base/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
 
     <!-- jQuery Confirm -->
-    <link rel="stylesheet" href="{% static 'base/vendor/jquery_confirm/jquery-confirm.min.js' %}">
+    <script src="{% static 'base/vendor/jquery_confirm/jquery-confirm.min.js' %}"></script>
 
 
   
@@ -490,15 +490,24 @@ function cerrar_modal() {
     $('#popup').modal('hide');
     return false;
 }
-function mensaje(msg, color = 'green') {
-    $.alert({
-        title: '',
-        theme: 'material',
-        type: color,
-        content: msg
-    });
-}
+function mostrarMensajeError() {
+        $.confirm({
+            title: 'Error de Inicio de Sesión',
+            content: 'Por favor, introduzca un nombre de usuario y clave correctos. Observe que ambos campos pueden ser sensibles a mayúsculas.',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                cerrar: {
+                    text: 'OK',
+                    btnClass: 'btn-red',
+                    action: function(){}
+                }
+            }
+        });
+    }
 
+
+    
 
 </script>
 {% endblock %}
@@ -508,3 +517,5 @@ function mensaje(msg, color = 'green') {
 </body>
 
 </html>
+
+
