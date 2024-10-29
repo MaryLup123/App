@@ -4,21 +4,22 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
-from django.views import generic
-from django.urls import reverse_lazy
 import datetime
 from django.http import HttpResponse, JsonResponse
 
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponse
-
 from django.db.models import Sum
 
 from .models import Proveedor, ComprasEnc, ComprasDet
 from cmp.forms import ProveedorForm,ComprasEncForm
 from bases.views import SinPrivilegios
 from inv.models import Producto
+
+# cmp/views.py
+from django.views.generic import ListView
+from .models import Proveedor
+
 
 class ProveedorView(LoginRequiredMixin, generic.ListView):
     model = Proveedor

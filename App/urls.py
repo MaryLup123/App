@@ -29,6 +29,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),  # Añade esta línea para el logout
     path('inv/', include(('inv.urls', 'inv'), namespace='inv')),  # Incluir las URLs de la aplicación bases
     path('cmp/', include(('cmp.urls', 'cmp'), namespace='cmp')),
+    path('fac/', include(('fac.urls', 'cmp'), namespace='fac')),
 
 ]
 

@@ -2,6 +2,7 @@ from django.urls import path
 from .views import ProveedorView, ProveedorNew, ProveedorEdit, proveedorInactivar, ComprasView, compras, CompraDetDelete
 
 from .reportes import reporte_compras, imprimir_compra
+app_name = 'cmp'
 
 urlpatterns = [
     path('proveedores/', ProveedorView.as_view(), name="proveedor_list"),  

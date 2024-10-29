@@ -1,24 +1,26 @@
-from django.shortcuts import redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
-from django.contrib.auth.views import LoginView
-from django.views import View
-from django.shortcuts import render
-from django.contrib.auth import logout
+
+
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.http.response import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.views import generic
 
+class SinPrivilegios(LoginRequiredMixin,PermissionRequiredMixin):
+    login_url='bases:login'
+    raise_exception=False
+    redirect_field_name="redirect_to"
 
-class Home(LoginRequiredMixin, TemplateView):
+    def handle_no_permission(self):
+        from django.contrib.auth.models import AnonymousUser
+        if not self.request.user==AnonymousUser():
+            self.login_url='bases:sin_privilegios'
+        return HttpResponseRedirect(reverse_lazy(self.login_url))
+    
+class Home (LoginRequiredMixin, generic.TemplateView):
     template_name = 'bases/home.html'
-    login_url = 'bases:login'  # Redirigir a la página de administración para el inicio de sesión
+    login_url='bases:login'
 
-#def logout_view(request):
-   # logout(request)  # Cierra la sesión del usuario
-    #return redirect('bases:login')  # Redirige al formulario de login después del logout
-
-
-# sirver para forzar la redireccion Admin
-#def dispatch(self, *args, **kwargs):
-       # if not self.request.user.is_authenticated:
-      #      return redirect(self.login_url)
-      #  return super().dispatch(*args, **kwargs)
+class HomeSinPrivilegio(generic.TemplateView):
+    login_url='bases:login'
+    template_name="bases/sin_privilegios.html"
+# Create your views here.
